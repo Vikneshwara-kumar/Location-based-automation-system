@@ -1,40 +1,93 @@
-# Location based automation system 
+# **Location Based Automation System**
 
-### Project Description:
-In this project, I've implemented a location-based automation system, harnessing the capabilities of 5G technology. In detail, I've utilized indoor localization for precise navigation and have applied the geofencing technique to control the operation of the automation system within a shop floor. An Automated Guided Vehicle (AGV) is driven based on the indoor localization system, specifically Omlox, and a conveyor system has been integrated with an Omlox Wi-Fi tag to establish the static location of assets.
+## Project Overview
+This project implements a location-based automation system leveraging the capabilities of 5G technology and indoor localization. The system uses the Omlox indoor localization system for precise navigation and geofencing to control automation operations within a shop floor. An Automated Guided Vehicle (AGV) navigates based on data from Omlox, and a conveyor system integrated with an Omlox Wi-Fi tag establishes the static location of assets.
 
-This module provides functions to establish a connection with an Omlox server and navigate within the area using data from the localization system. The project involves the creation of distinct zones within the designated area and enables the robot to autonomously approach the conveyor system, retrieve products, and transport them to other locations.
+## Scope
 
-## Dependencies:
-This module requires the following packages to be installed in the Python environment: numpy, requests, keyboard, math, threading, signal, and time.
+The scope of the project includes establishing connections with the Omlox server, creating distinct zones within the designated area, and enabling the robot to autonomously approach the conveyor system, retrieve products, and transport them to other locations.
 
-## Functions:
+## Key Objectives
 
-### omlox(omlox_url): 
-Sends a GET request to the Omlox server specified by the omlox_url parameter and returns a list of the X, Y, and Z coordinates data.
+*   Utilize indoor localization for precise navigation.
+*   Apply geofencing to control operations within defined zones.
+*   Enable autonomous navigation of AGV using Omlox Wi-Fi tags.
 
-### Zone(data): 
-Takes in a list containing the X, Y, and Z values and determines the zone of the location. Returns an integer representing the zone.
+## Table of Contents
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Features](#Features)
+4. [Testing](#Testing)
+5. [Contributing](#contributing)
+6. [License](#license)
+7. [Acknowledgements](#acknowledgements)
 
-### collision(data1, data2): 
-Takes two lists containing coordinates data of two devices and calculates the distance between them. If the distance is less than or equal to a threshold value of 0.5, an alarm is triggered and the function returns the distance value.
+## Installation
+### Prerequisites
+*   Raspberry Pi devices
+*   Omlox localiation system
+*   Festo AGV
+*   5G Modem
 
-### bumper()
-This function gets the current state of the Robotino's bumper. It returns True if the bumper is pressed, otherwise it returns False.
+### setup  
+To set up the environment and install dependencies, use the provided setup_environment.sh script:
+chmod +x setup_environment.sh
+Clone the repository: 
+```
+git clone https://github.com/Vikneshwara-kumar/Location Based Automation System.git
+```
+Navigate to the project directory: 
+```
+cd Location Based Automation System
+```
+```
+./setup_environment.sh
+```
 
+## Usage
+1.  Initialize IP Addresses and Tags: Input the IP addresses for Robotino and the Omlox system, as well as the MAC IDs for the Omlox Wi-Fi tags.
+2.  Run the Main Script: Execute the main script to start navigating the Robotino using the Omlox localization data.
+```
+if __name__ == "__main__":
+    omlox_url1 = "http://example.com/omlox1"
+    omlox_url2 = "http://example.com/omlox2"
 
-## Global Variables:
+    data1 = omlox(omlox_url1)
+    data2 = omlox(omlox_url2)
 
-1. zone: An integer representing the current zone.
-2. colli: A boolean variable indicating if a collision has occurred.
-3. alarm: A boolean variable indicating if an alarm should be triggered.
+    zone1 = Zone(data1)
+    zone2 = Zone(data2)
 
-### Note:
-This module does not provide a full implementation of the Omlox Nothalt Project. It only provides the core functionalities for connecting to the Omlox server and navigating the AGV or any other stuff based on the obtained data.
+    dist = collision(data1, data2)
+    print(f"Distance between devices: {dist} meters")
+    print(f"Zone 1: {zone1}, Zone 2: {zone2}")
+```
 
+## Features
+*   Omlox Integration: Connects to Omlox server to fetch location data.
+*   Zone Identification: Determines and identifies zones based on coordinates.
+*   Collision Detection: Calculates distance between devices and triggers an alarm if necessary.
+*   Bumper and Distance Sensors: Reads and processes data from Robotino's bumper and distance sensors.
+*   Motion Control: Controls Robotino's motion based on calculated vectors.
 
-## How to use the Omlox Module.
-1. Setup the python environvnment with all the dependencies.
-2. Python script Omlox_Rest_API is collection of funtions of the omlox system. Using REST API it access the Omlox hub using the provided URL (http:\\xxx.xx.x.xxx),extracts the Location data of specific Tag.
-3. Accuracy_test script is used for collecting the location data, visualize the data and calculate its accuracy  
-4. DataProcessing is a script used to process the stored JSON data this is a dependency for ACCURACY_test scrip
+## Testing
+To test the individual components:
+
+1.  Unit Tests: Write unit tests for each function to ensure they work correctly.
+2.  Integration Tests: Test the integration of the Omlox system with the Robotino.
+
+##  Contributing
+Contributions are welcome! Please follow these steps:
+
+1.  Fork the repository.
+2.  Create your feature branch (git checkout -b feature/YourFeature).
+3.  Commit your changes (git commit -m 'Add some feature').
+4.  Push to the branch (git push origin feature/YourFeature).
+5.  Open a pull request.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Acknowledgements
+Thanks to the Omlox team for providing the indoor localization system.
+Special thanks to the contributors who helped in developing and testing this project.
